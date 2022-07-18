@@ -32,7 +32,7 @@ void IntCrtl_Init(void)
 {
     /* Trigger exception to go to privilege mode */
     __asm("svc #0");
-	/*TODO Configure Grouping\SubGrouping System in APINT register in SCB*/
+	/*Configure Grouping\SubGrouping System in APINT register in SCB*/
     #if (PRIORITY_GROUPING == 1) 
         APINT = 0xFA050400;         //xxx
         #define CALCULATE_PRIORITY(group,subgroup)   (group)
