@@ -139,6 +139,16 @@ typedef union
 
 
 
+
+
+/***********GPIO Registers***********/
+#define GPIODATAx_OFFSET                       0X000
+#define GET_GPIODATAx_ADDRESS(Base)            (*((volatile uint32*)(GPIODATAx_OFFSET+Base)))
+
+#define GPIODIRx_OFFSET                       0X400
+#define GET_GPIODIRx_ADDRESS(Base)            (*((volatile uint32*)(GPIODIRx_OFFSET+Base)))
+
+
 /**********************************************************************************************************************
  *  GLOBAL DATA PROTOTYPES
  *********************************************************************************************************************/
