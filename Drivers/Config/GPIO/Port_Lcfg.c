@@ -2,9 +2,11 @@
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
 /**        \file  Port_Lcfg.c
- *        \brief  
+ *        \brief  Confguration file for GPIO Module  
  *
- *      \details  
+ *      \details  Configure GPIO Ports in this file using Configured Pins array 
+ *                The pins you want to configure needs to specify the Pin ID , Mode ,PULL UP or Pull DAWN and 
+ *                the current  
  *
  *
  *********************************************************************************************************************/
@@ -25,22 +27,13 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-// typedef struct
-// {
-//     Port_PinType pin;
-//     Port_PinModeType pinMode;
-//     Port_PinDirectionType pinDirection;
-//     Port_PinInternalAttachType pinAttach;
-//     Port_PinOutputCurrentType pinCurrent;
-// }Port_ConfigType;
 
 
-
-Port_ConfigType Configured_Pins[NUMBER_OF_CONFIGURED_PINS] ={
-    {DIO_PC1 , DIGITAL,OUTPUT,  PULL_DOWN, mA_2},
-    {DIO_PD0 , DIGITAL,INPUT,  PULL_UP, mA_8},
-    {DIO_PA5 , DIGITAL,OUTPUT,  OPEN_DRAIN, mA_2},
-    {DIO_PB3 , DIGITAL,OUTPUT,  PULL_DOWN, mA_4},
+Configured_Pins={
+    {Port_PF0 , GPIO_MODE,OUTPUT,  PULL_DOWN,  mA_2},
+    {Port_PF0 , GPIO_MODE,INPUT,   PULL_UP,    mA_8},
+    {Port_PF0 , GPIO_MODE,OUTPUT,  OPEN_DRAIN, mA_2},
+    {Port_PF0 , GPIO_MODE,OUTPUT,  PULL_DOWN,  mA_4},
 };
 
 

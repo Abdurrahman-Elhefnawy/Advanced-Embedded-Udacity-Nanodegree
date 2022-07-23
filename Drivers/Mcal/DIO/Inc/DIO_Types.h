@@ -98,7 +98,7 @@ typedef enum
     HIGH
 }DIO_LevelType;
 
-typedef enum uint8 DIO_PortLevelType;
+typedef uint8 DIO_PortLevelType;
 
 
 

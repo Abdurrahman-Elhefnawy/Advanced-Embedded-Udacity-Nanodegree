@@ -18,6 +18,8 @@
 #include "Port_Types.h"
 #include "Port_cfg.h"
 #include "Mcu_Hw.h"
+#include "Bit_Math.h"
+
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
@@ -42,9 +44,9 @@
  *********************************************************************************************************************/
  
 /******************************************************************************
-* \Syntax          : void IntCrtl_Init(void)                                      
-* \Description     : initialize Nvic\SCB Module by parsing the Configuration 
-*                    into Nvic\SCB registers                                    
+* \Syntax          : void Port_Init(void)                                      
+* \Description     : initialize GPIO Module by parsing the Configuration 
+*                    into of the selcted pins to GPIO registers                                    
 *                                                                             
 * \Sync\Async      : Synchronous                                               
 * \Reentrancy      : Non Reentrant                                             
@@ -52,7 +54,7 @@
 * \Parameters (out): None                                                      
 * \Return value:   : None
 *******************************************************************************/
-void Port_Init(Port_ConfigType* portArrayOfConfigs);
+void Port_Init();
 
 #endif  /* PORT_H */
 

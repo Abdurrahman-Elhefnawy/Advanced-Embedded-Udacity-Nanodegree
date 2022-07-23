@@ -3,9 +3,9 @@
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
  *         File:  Port_Cfg.h
- *       Module:  -
+ *       Module:  GPIO
  *
- *  Description:  <Write File DESCRIPTION here>     
+ *  Description:  Configuratino header file for GPIO module     
  *  
  *********************************************************************************************************************/
 #ifndef PORT_CFG_H
@@ -31,9 +31,7 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA TYPES AND STRUCTURES
  *********************************************************************************************************************/
-
 extern Port_ConfigType Configured_Pins[NUMBER_OF_CONFIGURED_PINS];
-
  
 #endif  /* Port_CFG_H */
 

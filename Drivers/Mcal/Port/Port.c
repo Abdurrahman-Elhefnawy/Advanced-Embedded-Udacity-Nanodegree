@@ -12,9 +12,7 @@
 /**********************************************************************************************************************
  *  INCLUDES
  *********************************************************************************************************************/
-#include "Std_Types.h"
 #include "Port.h"
-#include "Mcu_Hw.h"
 
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
@@ -31,6 +29,8 @@ uint32 PortsBaseAddresses[6] = {
     0x40024000,
     0x40025000,
 };
+
+
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
@@ -49,9 +49,9 @@ uint32 PortsBaseAddresses[6] = {
 
 
 /******************************************************************************
-* \Syntax          : void IntCrtl_Init(void)                                      
-* \Description     : initialize Nvic\SCB Module by parsing the Configuration 
-*                    into Nvic\SCB registers                                    
+* \Syntax          : void Port_Init(void)                                      
+* \Description     : initialize GPIO Module by parsing the Configuration 
+*                    into of the selcted pins to GPIO registers                                    
 *                                                                             
 * \Sync\Async      : Synchronous                                               
 * \Reentrancy      : Non Reentrant                                             
@@ -59,7 +59,7 @@ uint32 PortsBaseAddresses[6] = {
 * \Parameters (out): None                                                      
 * \Return value:   : None
 *******************************************************************************/
-void Port_Init(Port_ConfigType* portArrayOfConfigs){
+void Port_Init(){
     Port_PinType pinId ;
     Port_PinModeType pinMode;
     Port_PinDirectionType pinDirection;
@@ -69,7 +69,7 @@ void Port_Init(Port_ConfigType* portArrayOfConfigs){
 
     for( Port_PinType pinIdx; pinIdx < NUMBER_OF_CONFIGURED_PINS;pinIdx++){
         /*Assign Group\Subgroup priority in NVIC_PRIx Nvic and SCB_SYSPRIx Registers*/  
-    	pinId          =Configured_Pins[pinIdx].pinId;
+				pinId              =Configured_Pins[pinIdx].pinId;
         pinMode            =Configured_Pins[pinIdx].pinMode;
         pinDirection       =Configured_Pins[pinIdx].pinDirection;
         pinInternalAttach  =Configured_Pins[pinIdx].pinInternalAttach;
@@ -78,32 +78,43 @@ void Port_Init(Port_ConfigType* portArrayOfConfigs){
         uint8 portNumber =   pinId / 8;
         uint8 pinNumber = pinId % 8;
 
+        /*handle the case that Port E has only 6 pins and Port F has 5 pins*/
+        if(pinId>31){
+            portNumber = Port_PORTE;
+            pinNumber = pinId - 32; 
+        }
+        if(pinId>37){
+            portNumber = Port_PORTF;
+            pinNumber = pinId - 38; 
+        }
+
+
+        SET_BIT(RCGCGPIO,portNumber);
+        for(int i =0 ; i < 6 ; i++);
+        
         /**************SET DIRECTION*************/
         if(pinDirection == INPUT)
             CLR_BIT(GET_GPIODIRx_ADDRESS(PortsBaseAddresses[portNumber]) ,pinNumber);
         else if(pinDirection == OUTPUT)
             SET_BIT(GET_GPIODIRx_ADDRESS(PortsBaseAddresses[portNumber]) ,pinNumber);
-        
-        
-
+       
         /**************SELECT MODE*************/
-
         //Unlock GPIOLOCK to commit in GPIOCR  
-      //  GPIOLOCKx(PortsBaseAddresses[portNumber]) = (0x4C4F44B) ;
+        GPIOLOCKx(PortsBaseAddresses[portNumber]) = (0x4C4F434B) ;
         //Commit bit in GPIOCR  
-        SET_BIT(GPIOCRx(PortsBaseAddresses[portNumber]) ,pinNumber);
-        
-        
+        SET_BIT(GPIOCRx(PortsBaseAddresses[portNumber]) ,pinNumber);  
+
         if(pinMode == GPIO_MODE)
-            CLR_BIT(GPIOAFSELx((PortsBaseAddresses[portNumber]) ,pinNumber));
+            CLR_BIT(GPIOAFSELx(PortsBaseAddresses[portNumber]),pinNumber  );
         else {
             /*SET corresponding bit in GPIOAFSEL to switch to alternative function*/
             SET_BIT(GPIOAFSELx(PortsBaseAddresses[portNumber]) ,pinNumber);
             /*SET alternative function in GPIOPCTL*/
             SET_BITS_VALUE(GPIOPCTLx(PortsBaseAddresses[portNumber]) ,pinNumber,pinMode);  
         }
-
-
+       
+       
+    
         /**************SELECT INTERNAL ATTACH*************/
         switch (pinInternalAttach)
         {
@@ -139,7 +150,13 @@ void Port_Init(Port_ConfigType* portArrayOfConfigs){
             break;
         default:
             break;
-        } 
+        }
+
+        SET_BIT(GPIODENx(PortsBaseAddresses[portNumber]) ,pinNumber);
+        //CLR_BIT(GET_GPIODATAx_ADDRESS(PortsBaseAddresses[portNumber]) , pinNumber);
+        SET_BIT(GET_GPIODATAx_ADDRESS(PortsBaseAddresses[portNumber]) , pinNumber);
+
+ 
     }   
 
 }
