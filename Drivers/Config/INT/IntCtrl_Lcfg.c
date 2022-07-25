@@ -20,9 +20,9 @@
  *  GLOBAL DATA
  *********************************************************************************************************************/
 IntCtrl_ActiveInterruptType Active_Interrupts[NUMBER_OF_ACTIVE_INTERRUPTS] ={
-    {INTCTRL_UART0,       0, 0},
-    {INTCTRL_I2C0,        1, 0},
-    {INTCTRL_GPIO_PORTB,  0, 1},
+    {INTCTRL_GPIO_PORTA,       3, 1},
+    {INTCTRL_GPIO_PORTD,        2, 1},
+    {INTCTRL_GPIO_PORTF,  1, 1},
 };
 
 IntCtrl_ActiveExceptionType Active_Exceptions[NUMBER_OF_ACTIVE_SYSEXCEPTIONS] ={

@@ -16,7 +16,7 @@
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
-#define PRIORITY_GROUPING               3       // 1)--->xxx  2)-->xxy  3)-->xyy    4)-->yyy
+#define PRIORITY_GROUPING               2       /* 1)--->xxx  2)-->xxy  3)-->xyy    4)-->yyy*/
 
 #define NUMBER_OF_ACTIVE_INTERRUPTS     3
 #define NUMBER_OF_ACTIVE_SYSEXCEPTIONS  2
